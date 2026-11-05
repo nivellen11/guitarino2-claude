@@ -90,14 +90,34 @@ p { margin: 0 0 1em; }
 .menu-btn span::after { top: 7px; }
 
 /* hero */
-.hero { padding: clamp(2.5rem, 6vw, 4.5rem) 0; overflow: hidden; }
-.hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 3rem; align-items: center; }
-.hero h1 { margin-bottom: .4em; }
+.hero {
+  position: relative; isolation: isolate; min-height: clamp(420px, 48vw, 600px);
+  display: grid; align-items: center; padding: clamp(3rem, 7vw, 5.5rem) 0;
+  overflow: hidden; color: #fff; background: var(--ink);
+}
+.hero-backdrop {
+  position: absolute; z-index: -2; inset: -2rem;
+  background: url("../img/uczniowie.png") 64% center / auto 100% no-repeat;
+  animation: hero-pan 36s ease-in-out infinite alternate;
+  will-change: background-position;
+}
+.hero::after {
+  content: ""; position: absolute; z-index: -1; inset: 0;
+  background: linear-gradient(90deg, rgba(18, 31, 54, .9) 0%, rgba(18, 31, 54, .75) 45%, rgba(18, 31, 54, .3) 100%);
+}
+.hero-content {
+  width: min(100% - 2.5rem, var(--max)); margin-inline: auto;
+  padding-left: clamp(0rem, 5vw, 5rem);
+}
+.hero h1 { margin-bottom: .4em; color: #fff; max-width: 700px; }
 .hero .lead { font-size: 1.2rem; color: var(--ink-soft); }
 .badges { list-style: none; padding: 0; margin: 1.4rem 0 1.8rem; display: grid; gap: .6rem; }
-.badges li { display: flex; gap: .7rem; align-items: baseline; }
+.badges li { display: flex; gap: .7rem; align-items: baseline; max-width: 690px; text-shadow: 0 1px 12px rgba(0, 0, 0, .45); }
 .badges strong { background: var(--teal); color: #fff; padding: .1rem .7rem; border-radius: 999px; font-family: var(--font-head); font-size: 1rem; white-space: nowrap; }
-.hero-art img { border-radius: 28px; box-shadow: var(--shadow); width: 100%; }
+@keyframes hero-pan {
+  from { background-position: 64% center; }
+  to { background-position: 36% center; }
+}
 
 .page-hero { padding: clamp(2.5rem, 6vw, 4rem) 0 1rem; }
 .page-hero p { color: var(--ink-soft); font-size: 1.2rem; max-width: 640px; }
@@ -180,6 +200,7 @@ p { margin: 0 0 1em; }
   .nav ul { flex-direction: column; gap: 0; }
   .nav ul a { display: block; padding: .8rem 0; border-bottom: 1px solid rgba(31, 35, 64, .08); }
   .nav .tel { text-align: center; margin-top: 1rem; padding: .8rem; }
+  .hero-content { padding-left: 0; }
   .hero-grid, .split, .profile, .block, .areas { grid-template-columns: 1fr; gap: 1.8rem; }
   .split.flip .split-media, .block:nth-child(even) .block-media { order: 0; }
   .profile img { max-width: 320px; }
@@ -189,4 +210,5 @@ p { margin: 0 0 1em; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   * { transition: none !important; }
+  .hero-backdrop { animation: none; }
 }
